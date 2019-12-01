@@ -2,6 +2,7 @@
 
 
 mod input;
+mod alignment;
 pub mod config;
 pub mod state;
 
@@ -13,6 +14,7 @@ use bear_lib_terminal_sys as ffi;
 use bear_lib_terminal_sys::ColorT;
 
 pub use self::input::{Event, KeyCode};
+pub use self::alignment::{VAlign, HAlign, Alignment};
 
 
 /// Creates the terminal window of the specified size with the specified title, without showing it.
