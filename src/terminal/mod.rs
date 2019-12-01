@@ -190,6 +190,25 @@ pub fn print_xy(x: i32, y: i32, value: &str) {
 	print(Point::new(x, y), value);
 }
 
+/// Prints the specified string to the specified location with text wrapping and alignment.
+/// 
+/// See the docs for the [`terminal_print_ext()` C API function](http://foo.wyrd.name/en:bearlibterminal:reference#print).
+pub fn print_ext(rect: Rect, align: Alignment, value: &str) {
+	let _ = ffi::print_ext(
+		rect.top_left.x, 
+		rect.top_left.y, 
+		rect.size.width, 
+		rect.size.height, 
+		align.into(), 
+		value
+	);
+}
+
+/// Equivalent to [`print_ext()`](fn.print_ext.html) with a `Rect` constructed from the first four arguments.
+pub fn print_ext_xy(x: i32, y: i32, w: i32, h: i32, align: Alignment, value: &str) {
+	print_ext(Rect::from_values(x, y, w, h), align, value);
+}
+
 /// Calculate the argument's width/height without printing it.
 ///
 /// Whether the function returns the width or the height depends on the presence of the `bbox` tag in the string.
