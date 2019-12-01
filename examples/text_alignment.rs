@@ -52,28 +52,21 @@ fn main() {
         terminal::refresh();
         
         if let Some(e) = terminal::wait_event() {
+            use {HAlign::*, VAlign::*,};
             match e {
                 Event::KeyPressed{ key: KeyCode::Escape, ..} | Event::Close => break,
                 Event::Resize{width, height} => frame = resize_frame(Size::new(width, height)),
-                Event::KeyPressed{ key: KeyCode::Left, ..} => match h_align {
-                    HAlign::Left =>     h_align = HAlign::Left,
-                    HAlign::Center =>   h_align = HAlign::Left,
-                    HAlign::Right =>    h_align = HAlign::Center,
+                Event::KeyPressed{ key: KeyCode::Left, ..} => h_align = match h_align {
+                    Left => Left,     Center => Left,     Right => Center,
                 },
-                Event::KeyPressed{ key: KeyCode::Right, ..} => match h_align {
-                    HAlign::Left =>     h_align = HAlign::Center,
-                    HAlign::Center =>   h_align = HAlign::Right,
-                    HAlign::Right =>    h_align = HAlign::Right,
+                Event::KeyPressed{ key: KeyCode::Right, ..} => h_align = match h_align {
+                    Left => Center,   Center => Right,    Right => Right,
                 },
-                Event::KeyPressed{ key: KeyCode::Up, ..} => match v_align {
-                    VAlign::Top =>      v_align = VAlign::Top,
-                    VAlign::Middle =>   v_align = VAlign::Top,
-                    VAlign::Bottom =>   v_align = VAlign::Middle,
+                Event::KeyPressed{ key: KeyCode::Up, ..} => v_align = match v_align {
+                    Top => Top,       Middle => Top,      Bottom => Middle,
                 },
-                Event::KeyPressed{ key: KeyCode::Down, ..} => match v_align {
-                    VAlign::Top =>      v_align = VAlign::Middle,
-                    VAlign::Middle =>   v_align = VAlign::Bottom,
-                    VAlign::Bottom =>   v_align = VAlign::Bottom,
+                Event::KeyPressed{ key: KeyCode::Down, ..} => v_align = match v_align {
+                    Top => Middle,    Middle => Bottom,   Bottom => Bottom,
                 },
                 _ => {}
             }
